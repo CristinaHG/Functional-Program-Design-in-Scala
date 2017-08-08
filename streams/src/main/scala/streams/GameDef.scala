@@ -136,7 +136,7 @@ trait GameDef {
       var mylist:List[(Block, Move)]=(startBlock.left,Left)::Nil
       mylist= (startBlock.up,Up)::mylist
       mylist= (startBlock.down,Down)::mylist
-      mylist.reverse
+      mylist.reverse.drop(1)
     }
 
     /**
