@@ -66,7 +66,7 @@ class BloxorzSuite extends FunSuite {
 
   test("neighbors with history"){
     new Level1 {
-      assert(neighborsWithHistory(Block(Pos(1,1),Pos(1,1)), List(Left,Up))==Set(
+      assert(neighborsWithHistory(Block(Pos(1,1),Pos(1,1)), List(Left,Up)).head==Stream(
         (Block(Pos(1,2),Pos(1,3)), List(Right,Left,Up)),
         (Block(Pos(2,1),Pos(3,1)), List(Down,Left,Up))
       )
