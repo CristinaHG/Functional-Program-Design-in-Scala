@@ -1,6 +1,7 @@
 package streams
 
 import common._
+import sun.plugin2.jvm.CircularByteBuffer.Streamer
 
 /**
  * This component implements the solver for the Bloxorz game
@@ -40,9 +41,9 @@ trait Solver extends GameDef {
    * make sure that we don't explore circular paths.
    */
   def newNeighborsOnly(neighbors: Stream[(Block, List[Move])],
-                       explored: Set[Block]): Stream[(Block, List[Move])] ={
-    neighbors.filter(t=>explored.contains(t._1))
-  }
+                       explored: Set[Block]): Stream[(Block, List[Move])] =
+    neighbors.filterNot(t=>explored.contains(t._1))
+
 
   /**
    * The function `from` returns the stream of all possible paths
@@ -68,7 +69,15 @@ trait Solver extends GameDef {
    * construct the correctly sorted stream.
    */
   def from(initial: Stream[(Block, List[Move])],
-           explored: Set[Block]): Stream[(Block, List[Move])] = ???
+           explored: Set[Block]): Stream[(Block, List[Move])] =
+    if (initial.isEmpty) Stream.empty
+  else{
+      val more=for{
+        (block, movement)<-initial
+        next<-newNeighborsOnly(neighborsWithHistory(block,movement),explored)
+      }yield next
+      initial.++(from(more,explored))
+    }
 
   /**
    * The stream of all paths that begin at the starting block.
