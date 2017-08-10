@@ -133,10 +133,11 @@ trait GameDef {
      * the current block, together with the corresponding move.
      */
     def neighbors: List[(Block, Move)] = {
-      var mylist:List[(Block, Move)]=(startBlock.left,Left)::Nil
-      mylist= (startBlock.up,Up)::mylist
-      mylist= (startBlock.down,Down)::mylist
-      mylist.reverse.drop(1)
+      List(
+        (left, Left),
+        (right, Right),
+        (up, Up),
+        (down, Down))
     }
 
     /**
@@ -144,13 +145,14 @@ trait GameDef {
      * which are inside the terrain.
      */
     def legalNeighbors: List[(Block, Move)] = {
-      for (neighbor<-neighbors if (neighbor._1 isLegal)) yield neighbor
+      neighbors.filter(_._1.isLegal)
+      //for (neighbor<-neighbors if (neighbor._1 isLegal)) yield neighbor
     }
 
     /**
      * Returns `true` if the block is standing.
      */
-    def isStanding: Boolean = b1.col==b2.col
+    def isStanding: Boolean = b1==b2
 
     /**
      * Returns `true` if the block is entirely inside the terrain.
