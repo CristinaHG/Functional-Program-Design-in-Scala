@@ -145,7 +145,8 @@ trait GameDef {
      * which are inside the terrain.
      */
     def legalNeighbors: List[(Block, Move)] = {
-      neighbors.filter(_._1.isLegal)
+      neighbors.filter(b=>b._1.isLegal)
+     // neighbors.filter(_._1.isLegal)
       //for (neighbor<-neighbors if (neighbor._1 isLegal)) yield neighbor
     }
 
