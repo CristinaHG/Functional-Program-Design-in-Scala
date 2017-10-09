@@ -1,7 +1,7 @@
 package streams
 
 import common._
-import sun.plugin2.jvm.CircularByteBuffer.Streamer
+//import sun.plugin2.jvm.CircularByteBuffer.Streamer
 
 /**
  * This component implements the solver for the Bloxorz game
