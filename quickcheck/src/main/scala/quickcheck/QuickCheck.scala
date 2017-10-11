@@ -45,6 +45,14 @@ abstract class QuickCheckHeap extends Properties("Heap") with IntHeap {
   }
 
   // Hint 3: Given any heap, you should get a sorted sequence of elements when continually finding and deleting minima. (Hint: recursion and helper functions are your friends.)
+  property("sortedseqWhenDeleting") = forAll { (h: H) =>
+    def findAndDelete(h: H, list: List[A]): List[A] = h match {
+      case empty => Nil
+      case _ => findAndDelete(deleteMin(h), findMin(h) :: list)
+    }
+    findAndDelete(h,Nil)==findAndDelete(h,Nil).sorted
+  }
+
 
   // Hint 4: Finding a minimum of the melding of any two heaps should return a minimum of one or the other.
 
