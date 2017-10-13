@@ -41,7 +41,7 @@ abstract class QuickCheckHeap extends Properties("Heap") with IntHeap {
   property("ifInsertAndDeleteThenEmpy") = forAll { a: Int =>
     val h = insert(a, empty)
     val minRemoved = deleteMin(h)
-    isEmpty(minRemoved) == true
+    minRemoved==empty
   }
 
   // Hint 3: Given any heap, you should get a sorted sequence of elements when continually finding and deleting minima. (Hint: recursion and helper functions are your friends.)
@@ -58,9 +58,23 @@ abstract class QuickCheckHeap extends Properties("Heap") with IntHeap {
   // Hint 4: Finding a minimum of the melding of any two heaps should return a minimum of one or the other.
 
   property("minimumOfOneEqualsMeldingsMinimum") = forAll { (h1: H, h2: H) =>
-      (!isEmpty(h1) && !isEmpty(h2)) ==> {
-        val min = findMin(h1).min(findMin(h2))
-        findMin(meld(h1, h2)) == min
-      }
+    (!isEmpty(h1) && !isEmpty(h2)) ==> {
+      val min = findMin(h1).min(findMin(h2))
+      findMin(meld(h1, h2)) == min
     }
+  }
+
+
+  // if the heap has two elements and the min is deleted, then the element that rests is both the maximum and the minimum
+
+  property("iftwoElementsAndMinDeletedThenMinIsMax") = forAll { (a: Int, b: Int) =>
+  val max= if (a>b) a else b
+
+    val heap=insert(a,empty)
+    val heap1=insert(b,heap)
+    val minRemoved=deleteMin(heap1)
+
+    findMin(minRemoved)==max
+  }
+
 }
